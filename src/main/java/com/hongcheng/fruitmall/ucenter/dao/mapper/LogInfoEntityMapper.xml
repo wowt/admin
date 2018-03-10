@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hongcheng.fruitmall.ucenter.dao.mapper.LogInfoEntityMapper">
     <sql id="Base_column_List">
-        id,userName,password,email,registTime,lastTime,userId
+        id,userName,password,email,registTime,lastTime,userId,state
     </sql>
     <select id="selectByNameAndPassword" resultType="com.hongcheng.fruitmall.ucenter.entity.LogInfoEntity">
         SELECT
@@ -12,9 +12,34 @@
     </select>
     <insert id="insert">
         insert into login_info
-        (userName,password,email,registTime,lastTime,userId)
+        (userName,password,email,registTime,state)
         values
-        (#{userName},#{password},#{email},#{registTime},#{lastTime},#{userId})
+        (#{userName},#{password},#{email},#{registTime},#{state})
     </insert>
+    <select id="getByEmail" resultType="com.hongcheng.fruitmall.ucenter.entity.LogInfoEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM login_info
+        WHERE email=#{email}
+        LIMIT 1
+    </select>
+    <update id="update">
+        UPDATE login_info
+        <set>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="lastTime != null">
+                lastTime=#{lastTime},
+            </if>
+            <if test="state != null">
+                state=#{state},
+            </if>
+            <if test="userId != null">
+                userId=#{userId},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
 
 </mapper>
