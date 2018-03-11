@@ -6,4 +6,6 @@ public interface CartEntityMapper {
 
     CartEntity getById(Integer id);
 
+    int insert(CartEntity entity);
+
 }

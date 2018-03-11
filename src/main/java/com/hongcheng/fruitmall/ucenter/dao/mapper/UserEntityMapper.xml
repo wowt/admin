@@ -10,7 +10,7 @@
         FROM user
         WHERE userId=#{userId}
     </select>
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user
         (userState,email,realname,imgUrl,level,userSex,score,borth)
         VALUES

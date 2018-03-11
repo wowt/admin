@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.hongcheng.fruitmall.mall.dao.mapper.CartEntityMapper;
 import com.hongcheng.fruitmall.mall.dao.mapper.UserCollectEntityMapper;
-import com.hongcheng.fruitmall.mall.entity.CartEntity;
-import com.hongcheng.fruitmall.mall.entity.UserCollectEntity;
 import com.hongcheng.fruitmall.ucenter.dao.cache.UserCache;
 import com.hongcheng.fruitmall.ucenter.dao.mapper.LogInfoEntityMapper;
 import com.hongcheng.fruitmall.ucenter.dao.mapper.UserEntityMapper;
@@ -87,23 +85,16 @@ public class UserServiceImpl implements UserService {
                 .equals(userCache.getRegisterCode(email));
         //验证成果就创建一个用户
         if(equals) {
-            loginMapper.setState(email, UserState.ACTIVE.getValue());
+            //生成user
+            UserEntity user = new UserEntity(email);
+            userMapper.insert(user);
+            //更新login
+            LogInfoEntity info = new LogInfoEntity();
+            info.setUserId(user.getUserId());
+            info.setState(UserState.ACTIVE.getValue());
+            loginMapper.update(info);
             userCache.delete(email);
-
         }
         return equals;
-    }
-
-    /**
-     * 激活成功后就创建一个用户
-     * 包括 cart、UserCollect
-     * @param email
-     */
-    private void createUser(String email) {
-        //生成user
-        UserEntity user = new UserEntity(email);
-        userMapper.insert(user);
-        //生成cart
-        CartEntity cart = new CartEntity();
     }
 }
