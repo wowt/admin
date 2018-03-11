@@ -1,5 +1,7 @@
 package com.hongcheng.fruitmall.ucenter.service;
 
+import org.omg.PortableInterceptor.INACTIVE;
+
 import com.hongcheng.fruitmall.ucenter.entity.LogInfoEntity;
 
 public interface UserService {
@@ -26,11 +28,11 @@ public interface UserService {
 
     /**
      * 用户登录
-     * @param userName
+     * @param email
      * @param password
      * @return
      */
-    String login(String userName, String password);
+    String login(String email, String password);
 
     /**
      * 注册
@@ -43,4 +45,12 @@ public interface UserService {
      * @param entity
      */
     void updateLogin(LogInfoEntity entity);
+
+    /**
+     * 激活注册邮件连接
+     * @param email
+     * @param code
+     * @return
+     */
+    Boolean confirm(String email, Integer code);
 }

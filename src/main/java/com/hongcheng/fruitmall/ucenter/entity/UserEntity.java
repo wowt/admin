@@ -3,6 +3,7 @@ package com.hongcheng.fruitmall.ucenter.entity;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hongcheng.fruitmall.ucenter.enums.UserState;
 
 import lombok.Data;
 
@@ -54,4 +55,11 @@ public class UserEntity {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDate borth;
+
+    public UserEntity(){}
+
+    public UserEntity(String email) {
+        this.setUserState(UserState.ACTIVE.getValue());
+        this.setEmail(email);
+    }
 }

@@ -4,13 +4,8 @@
     <sql id="Base_column_List">
         id,userName,password,email,registTime,lastTime,userId,state
     </sql>
-    <select id="selectByNameAndPassword" resultType="com.hongcheng.fruitmall.ucenter.entity.LogInfoEntity">
-        SELECT
-        <include refid="Base_column_List"/>
-        FROM login_info
-        WHERE userName=#{name} AND password=#{password}
-    </select>
-    <insert id="insert">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into login_info
         (userName,password,email,registTime,state)
         values
@@ -20,7 +15,7 @@
         SELECT
         <include refid="Base_column_List"/>
         FROM login_info
-        WHERE email=#{email}
+        WHERE email=#{email} AND state='active'
         LIMIT 1
     </select>
     <update id="update">
@@ -40,6 +35,15 @@
             </if>
         </set>
         WHERE id=#{id}
+    </update>
+    <update id="setState">
+        UPDATE login_info
+        <set>
+            <if test="state != null">
+                state=#{state},
+            </if>
+        </set>
+        WHERE email=#{email}
     </update>
 
 </mapper>

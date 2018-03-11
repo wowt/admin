@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class Response<T> {
 
-    private Integer code;
+    private Integer code=200;
 
     private String msg;
 
