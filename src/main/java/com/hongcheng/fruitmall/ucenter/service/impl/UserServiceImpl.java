@@ -9,6 +9,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hongcheng.fruitmall.common.codec.MD5;
 import com.hongcheng.fruitmall.mall.dao.mapper.CartEntityMapper;
 import com.hongcheng.fruitmall.mall.dao.mapper.UserCollectEntityMapper;
 import com.hongcheng.fruitmall.ucenter.dao.cache.UserCache;
@@ -67,6 +68,8 @@ public class UserServiceImpl implements UserService {
         //生成随机验证码并存入缓存
         Integer registerCode = (int)(Math.random()*1000000);
         userCache.putRegisterCode(entity.getEmail(), registerCode);
+        //密码加密存储
+        entity.setPassword(MD5.getMD5(entity.getPassword()+entity.getRegistTime()));
         // 发送激活邮件 先生成邮件模型
         MailRequest mail = MailBody.getActiveMail(entity.getUserName(), entity.getEmail(), registerCode);
         loginMapper.insert(entity);

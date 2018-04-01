@@ -54,14 +54,14 @@ public class SecurityManagerTool {
         return new String(decrypt(decryptedContent));
     }
 
-    public static void main(String[] args) {
-        SecurityManagerTool securityManager = new SecurityManagerTool("mysecretmysecret");
-        String testStr = "1:hongchengw";
-
-        String encryptStr = securityManager.encryptAndBase64(testStr);
-
-        System.out.println(encryptStr);
-
-        System.out.println(securityManager.decryptBase64String(encryptStr));
-    }
+//    public static void main(String[] args) {
+//        SecurityManagerTool securityManager = new SecurityManagerTool("mysecretmysecret");
+//        String testStr = "1:hongchengw";
+//
+//        String encryptStr = securityManager.encryptAndBase64(testStr);
+//
+//        System.out.println(encryptStr);
+//
+//        System.out.println(securityManager.decryptBase64String(encryptStr));
+//    }
 }

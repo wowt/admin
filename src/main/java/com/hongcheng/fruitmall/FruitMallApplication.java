@@ -11,7 +11,6 @@ import java.util.TimeZone;
 
 @ComponentScan("com.hongcheng.fruitmall")
 @ImportResource("classpath:applicationContext.xml")
-//@SpringBootApplication
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class FruitMallApplication {
 

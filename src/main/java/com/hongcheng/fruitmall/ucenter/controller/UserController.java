@@ -25,7 +25,7 @@ public class UserController {
         return response;
     }
 
-    @GetMapping("/logout/{id}")
+    @GetMapping("/logout")
     public Response<String> logout(Integer id) {
         userService.logout(id);
         return new Response<>();
@@ -38,7 +38,7 @@ public class UserController {
         return response;
     }
 
-    @GetMapping("/active/{email}/{code}")
+    @GetMapping("/active")
     public Response<Boolean> confirm(String email, Integer code) {
         Response<Boolean> response = new Response<>();
         response.setResponseData(userService.confirm(email, code));
