@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hongcheng.fruitmall.mall.dao.mapper.ProductEntityMapper">
+<mapper namespace="com.hongcheng.fruitmall.mall.dao.mapper.FruitEntityMapper">
     <sql id="Base_column_List">
         productId,productName,productPlace,productState,productType,
         productImg,tips,price,dealPrice,score,startTime,endTime,introduce
     </sql>
-    <select id="selectById" resultType="com.hongcheng.fruitmall.mall.entity.ProductEntity">
+    <select id="selectById" resultType="com.hongcheng.fruitmall.mall.entity.FruitEntity">
         SELECT
         <include refid="Base_column_List"/>
         FROM product
@@ -63,4 +63,22 @@
         </set>
         where productId=#{productId}
     </update>
+    <select id="getDealFruits" resultType="com.hongcheng.fruitmall.mall.entity.FruitEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM product
+        WHERE find_in_set('deal',productState)
+    </select>
+    <select id="getPushFruits" resultType="com.hongcheng.fruitmall.mall.entity.FruitEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM product
+        WHERE find_in_set('push',productState)
+    </select>
+    <select id="getWillSaleFruits" resultType="com.hongcheng.fruitmall.mall.entity.FruitEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM product
+        WHERE find_in_set('will',productState)
+    </select>
 </mapper>

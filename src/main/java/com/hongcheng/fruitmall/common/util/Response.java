@@ -15,5 +15,25 @@ public class Response<T> {
 
     private T responseData;
 
-    private Long total;
+    private Integer total;
+
+    public Response<T> setData(T responseData) {
+        this.responseData = responseData;
+        return this;
+    }
+
+    public Response<T> setTotal(Integer total) {
+        this.total = total;
+        return this;
+    }
+
+    public Response<T> setMsg(String msg) {
+        this.msg = msg;
+        return this;
+    }
+
+    public Response<T> setCode(Integer code) {
+        this.code = code;
+        return this;
+    }
 }

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class ProductEntity {
+public class FruitEntity {
 
     /**
      * 产品编号

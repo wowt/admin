@@ -12,7 +12,7 @@ import com.hongcheng.fruitmall.ucenter.entity.LogInfoEntity;
 import com.hongcheng.fruitmall.ucenter.service.UserService;
 
 @RestController
-@RequestMapping("/userCenter")
+@RequestMapping("/userCenter/v1")
 public class UserController {
 
     @Autowired
