@@ -56,14 +56,14 @@ public class MailgunServiceImpl implements MailgunService {
     }
 
 
-    public static void main(String[] args) {
-        MailgunService service = new MailgunServiceImpl();
-        MailRequest mail = new MailRequest();
-        mail.setFrom("postmaster@sandbox62318caf630342c09fa97db6b75c25aa.mailgun.org");
-        mail.setSubject("就是测试！");
-        mail.setTo("1591952840@qq.com");
-        String link = "https://wwww.baidu.com";
-        mail.setMessage("<p><a href="+link+">"+link+"</a></p>");
-        service.sendActiveMail(mail);
-    }
+//    public static void main(String[] args) {
+//        MailgunService service = new MailgunServiceImpl();
+//        MailRequest mail = new MailRequest();
+//        mail.setFrom("postmaster@sandbox62318caf630342c09fa97db6b75c25aa.mailgun.org");
+//        mail.setSubject("就是测试！");
+//        mail.setTo("1591952840@qq.com");
+//        String link = "https://wwww.baidu.com";
+//        mail.setMessage("<p><a href="+link+">"+link+"</a></p>");
+//        service.sendActiveMail(mail);
+//    }
 }
