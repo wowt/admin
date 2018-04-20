@@ -93,6 +93,33 @@ public class AbstractCache {
         redisWriteTemplate.expire(key, timeout, TimeUnit.SECONDS);
     }
 
+    /**
+     * redis消息队列
+     * @param key
+     * @param value
+     */
+    public void pushFromTail(String key,Object value) {
+        String str = null;
+        try {
+            str = objectMapper.writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+            log.error("cache push to list failed......",e.getMessage());
+        }
+        redisWriteTemplate.boundListOps(key).rightPush(str);
+    }
+
+    public <T> T popFromHead(String key, Class<T> classTyp) {
+        String value = redisReadTemplate.boundListOps(key).leftPop();
+        if(!StringUtils.isEmpty(value)){
+            try {
+                return objectMapper.readValue(value, classTyp);
+            } catch (IOException e) {
+                log.error("pop failed....",e.getMessage());
+            }
+        }
+        return null;
+    }
+
     public boolean exists(String key){
         return redisReadTemplate.hasKey(key);
     }

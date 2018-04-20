@@ -20,7 +20,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
 @EnableAsync
-public class UCenterServiceConfig {
+public class BaseConfig {
 
     @Bean(name = "redisWriteTemplate")
     public StringRedisTemplate redisWriteTemplate(

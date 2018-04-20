@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hongcheng.fruitmall.fruit.dao.mapper.FruitEntityMapper">
+    <sql id="Base_column_List">
+        productId,productName,productPlace,productState,productType,
+        productImg,tips,price,dealPrice,score,startTime,endTime,introduce,keyWord
+    </sql>
+
+    <sql id="filter">
+        <if test="qo.keyWord != null">
+            AND keyWord LIKE CONCAT('%',#{qo.keyWord,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="qo.productType != null">
+            AND productType=#{qo.productType,jdbcType=INTEGER}
+        </if>
+        <if test="qo.state != null">
+            find_in_set(#{qo.state,jdbcType=VARCHAR},productState)
+        </if>
+    </sql>
+
+    <select id="selectById" resultType="com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM product
+        <where>
+            productId=#{productId}
+        </where>
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="productId">
+        INSERT INTO product
+        (productName,productPlace,productState,productType,
+        productImg,tips,price,dealPrice,score,startTime,endTime,introduce,keyWord)
+        VALUES
+        (#{productName},#{productPlace},#{productState},#{productType},
+        #{productImg},#{tips},#{price},#{dealPrice},#{score},#{startTime},#{endTime},#{introduce},#{keyWord})
+    </insert>
+    <update id="update">
+        update product
+        <set>
+            <if test="productName != null">
+                productName=#{productName},
+            </if>
+            <if test="productPlace != null">
+                productPlace=#{productPlace},
+            </if>
+            <if test="productState != null">
+                productState=#{productState},
+            </if>
+            <if test="productType != null">
+                productType=#{productType},
+            </if>
+            <if test="productImg != null">
+                productImg=#{productImg},
+            </if>
+            <if test="tips != null">
+                tips=#{tips},
+            </if>
+            <if test="price != null">
+                price=#{price},
+            </if>
+            <if test="dealPrice != null">
+                dealPrice=#{dealPrice},
+            </if>
+            <if test="score != null">
+                score=#{score},
+            </if>
+            <if test="startTime != null">
+                startTime=#{startTime},
+            </if>
+            <if test="endTime != null">
+                endTime=#{endTime},
+            </if>
+            <if test="introduce != null">
+                introduce=#{introduce},
+            </if>
+            <if test="keyWord != null">
+                keyWord=#{keyWord},
+            </if>
+        </set>
+        where productId=#{productId}
+    </update>
+    <select id="getDealFruits" resultType="com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM product
+        WHERE find_in_set('deal',productState)
+    </select>
+    <select id="getPushFruits" resultType="com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM product
+        WHERE find_in_set('push',productState)
+    </select>
+    <select id="getWillSaleFruits" resultType="com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM product
+        WHERE find_in_set('will',productState)
+    </select>
+    <select id="getListByQO" resultType="com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity">
+        SELECT
+        <include refid="Base_column_List"/>
+        FROM product
+        <where>
+            <include refid="filter"/>
+        </where>
+        <choose>
+            <when test="qo.orderBy != null">
+                ORDER BY
+                <foreach collection="qo.orderBy" item="item" separator=",">
+                    ${item.field} ${item.dir}
+                </foreach>
+            </when>
+            <otherwise>
+                ORDER BY  id desc
+            </otherwise>
+        </choose>
+        <if test="qo.size != 0">
+            LIMIT #{qo.from,jdbcType=INTEGER},#{qo.size,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <update id="updateState">
+        update product
+        set productState=#{state,jdbcType=VARCHAR}
+        where productId=#{id,jdbcType=INTEGER}
+    </update>
+</mapper>
