@@ -1,38 +1,41 @@
 package com.hongcheng.fruitmall.fruit.dao.cache;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hongcheng.fruitmall.common.cache.AbstractCache;
 import com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity;
+import com.hongcheng.fruitmall.willsale.pojo.vo.WillSaleInfo;
 
 @Component
 public class FruitCache extends AbstractCache {
 
     private static final Integer TIMEOUT = 300;
 
-    private static String DAYDEAL_KEY = "dayDeal_key";
+    private static String FRUIT_DAYDEAL_KEY = "fruit_dayDeal_key";
 
-    private static String PUBLISH_KEY ="publish";
+    private static String FRUIT_PUBLISH_KEY ="fruit_publish_key";
 
-    private static String SHOPPER_PUSH_KEY = "shopper_push_key"; //店长推荐
+    private static String FRUIT_SHOPPER_PUSH_KEY = "fruit_shopper_push_key"; //店长推荐
 
-    private static String WEEK_HOT_KEY = "week_hot_key"; //本周热卖
+    private static String FRUIT_WEEK_HOT_KEY = "fruit_week_hot_key"; //本周热卖
 
-    private static String Will_ON_SALE_KEY = "will_on_sale_key"; //预售
+    private static String FRUIT_Will_ON_SALE_KEY = "fruit_will_on_sale_key"; //预售
 
     /**
      * 获取今日促销的水果
      * @return
      */
     public List<FruitEntity> getDayDealFromCache(){
-        return get(DAYDEAL_KEY, new TypeReference<List<FruitEntity>>() {});
+        return get(FRUIT_DAYDEAL_KEY, new TypeReference<List<FruitEntity>>() {});
     }
 
     public void putDayDealToCache(List<FruitEntity> fruits) {
-        put(DAYDEAL_KEY, fruits, TIMEOUT);
+        put(FRUIT_DAYDEAL_KEY, fruits, TIMEOUT);
     }
 
     /**
@@ -40,11 +43,11 @@ public class FruitCache extends AbstractCache {
      * @return
      */
     public List<FruitEntity> getPushFruitsFromCache(){
-        return get(SHOPPER_PUSH_KEY, new TypeReference<List<FruitEntity>>() {});
+        return get(FRUIT_SHOPPER_PUSH_KEY, new TypeReference<List<FruitEntity>>() {});
     }
 
     public void putPushFruitsToCache(List<FruitEntity> fruits) {
-        put(SHOPPER_PUSH_KEY, fruits, TIMEOUT);
+        put(FRUIT_SHOPPER_PUSH_KEY, fruits, TIMEOUT);
     }
 
     /**
@@ -52,11 +55,11 @@ public class FruitCache extends AbstractCache {
      * @return
      */
     public List<FruitEntity> getWeekHotFruitsFromCache(){
-        return get(WEEK_HOT_KEY, new TypeReference<List<FruitEntity>>() {});
+        return get(FRUIT_WEEK_HOT_KEY, new TypeReference<List<FruitEntity>>() {});
     }
 
     public void putWeekHotFruitsToCache(List<FruitEntity> fruits) {
-        put(WEEK_HOT_KEY, fruits, TIMEOUT);
+        put(FRUIT_WEEK_HOT_KEY, fruits, TIMEOUT);
     }
 
     /**
@@ -64,11 +67,11 @@ public class FruitCache extends AbstractCache {
      * @return
      */
     public List<FruitEntity> getWillSaleFruitsFromCache(){
-        return get(Will_ON_SALE_KEY, new TypeReference<List<FruitEntity>>() {});
+        return get(FRUIT_Will_ON_SALE_KEY, new TypeReference<List<FruitEntity>>() {});
     }
 
     public void putWillSaleFruitsToCache(List<FruitEntity> fruits) {
-        put(Will_ON_SALE_KEY, fruits, TIMEOUT);
+        put(FRUIT_Will_ON_SALE_KEY, fruits, TIMEOUT);
     }
 
     /**
@@ -76,24 +79,24 @@ public class FruitCache extends AbstractCache {
      * @param
      */
     public List<FruitEntity> getPublishAll() {
-        return get(PUBLISH_KEY,new TypeReference<List<FruitEntity>>() {});
+        return get(FRUIT_PUBLISH_KEY,new TypeReference<List<FruitEntity>>() {});
     }
 
-    public void putPublishAll(List<FruitEntity> fruits) {put(PUBLISH_KEY,fruits,TIMEOUT);}
+    public void putPublishAll(List<FruitEntity> fruits) {put(FRUIT_PUBLISH_KEY,fruits,TIMEOUT);}
 
     public void cleanDayDeal() {
-        delete(DAYDEAL_KEY);
+        delete(FRUIT_DAYDEAL_KEY);
     }
 
     public void cleanWeekHot() {
-        delete(WEEK_HOT_KEY);
+        delete(FRUIT_WEEK_HOT_KEY);
     }
 
     public void cleanWillSale() {
-        delete(Will_ON_SALE_KEY);
+        delete(FRUIT_Will_ON_SALE_KEY);
     }
 
-    public void cleanPublish(){delete(PUBLISH_KEY);}
+    public void cleanPublish(){delete(FRUIT_PUBLISH_KEY);}
 
-    public void cleanPush(){delete(SHOPPER_PUSH_KEY);}
+    public void cleanPush(){delete(FRUIT_SHOPPER_PUSH_KEY);}
 }

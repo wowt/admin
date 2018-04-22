@@ -50,7 +50,7 @@
 
     <!-- Mapper扫描 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.hongcheng.fruitmall" />
+        <property name="basePackage" value="com.hongcheng.fruitmall.*.dao.mapper" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory_fruitmall"/>
     </bean>
     <!--@end fruitmall配置结束 -->

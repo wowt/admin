@@ -20,4 +20,6 @@ public class AdminOrderRequest extends PageForm {
     private LocalDateTime endTime;
 
     private Integer orderId;
+
+    private String state;
 }

@@ -16,13 +16,17 @@
 
     <appender name="SDKLOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/sdkaccesslogFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/fm-admin.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%-5level %d{HH:mm:ss.SSS} - %msg%n</pattern>
         </encoder>
     </appender>
+
+    <logger name="com.hongcheng.fruitmall" additivity="false" level="debug">
+        <appender-ref ref="STDOUT" />
+    </logger>
 
     <root level="INFO">
         <appender-ref ref="FILE" />

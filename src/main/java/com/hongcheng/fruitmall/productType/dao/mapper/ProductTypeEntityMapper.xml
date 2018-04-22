@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hongcheng.fruitmall.productType.dao.mapper.ProductTypeEntityMapper">
+
+    <sql id="Base_Column_List">
+        typeId,typeName,typeState
+    </sql>
+
+    <insert id="insert">
+        insert into productType
+        (typeName,typeState)
+        values
+        (#{entity.typeName},#{entity.state})
+    </insert>
+    <delete id="deleteById">
+        delete from productType
+        where typeId=#{id}
+    </delete>
+    <select id="list" resultType="com.hongcheng.fruitmall.productType.pojo.ProductTypeEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from productType
+        order by typeId desc
+    </select>
+</mapper>

@@ -22,4 +22,6 @@ public class AdminOrderQO extends PageQuery {
     private LocalDateTime endTime;
 
     private Integer orderId;
+
+    private String state;
 }

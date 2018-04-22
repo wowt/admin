@@ -1,5 +1,6 @@
 package com.hongcheng.fruitmall.order.pojo.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,13 +15,7 @@ public class OrderEntity {
 
     private Integer orderId;
 
-    private String productId;
-
-    private String price;
-
-    private String productQuantity;
-
-    private Float payMoney;
+    private BigDecimal payMoney;
 
     private String payPath;
 

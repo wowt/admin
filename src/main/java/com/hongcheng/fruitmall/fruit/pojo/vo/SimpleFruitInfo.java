@@ -1,5 +1,7 @@
 package com.hongcheng.fruitmall.fruit.pojo.vo;
 
+import java.math.BigDecimal;
+
 import lombok.Data;
 
 @Data
@@ -7,11 +9,11 @@ public class SimpleFruitInfo {
 
     private Integer productId;
 
-    private String imgUrl;
+    private String productImg;
 
-    private String productTitle;
+    private String title;
 
-    private Float price;
+    private BigDecimal price;
 
     private Integer quality;
 }

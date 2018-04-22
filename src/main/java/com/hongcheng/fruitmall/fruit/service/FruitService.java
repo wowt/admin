@@ -67,4 +67,18 @@ public interface FruitService {
      * @return
      */
     Integer removePush(Integer id);
+
+    /**
+     * 加入预售（该水果状态只能为prepublish）
+     * @param id
+     * @return
+     */
+    Integer addWillSale(Integer id);
+
+    /**
+     * 取消预售
+     * @param id
+     * @return
+     */
+    Integer removeWill(Integer id);
 }

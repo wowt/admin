@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hongcheng.fruitmall.willsale.dao.mapper.WillSaleEntityMapper">
+    <resultMap id="BaseResultMap" type="com.hongcheng.fruitmall.willsale.pojo.entity.WillSaleEntity"/>
+
+    <resultMap id="ResultInfoMap" type="com.hongcheng.fruitmall.willsale.pojo.vo.WillSaleInfo" extends="BaseResultMap">
+        <association property="fruitInfo" javaType="com.hongcheng.fruitmall.fruit.pojo.vo.SimpleFruitInfo" column="productId"
+                     select="getFruit"/>
+        <association property="userInfo" javaType="com.hongcheng.fruitmall.common.pojo.SimpleUserInfo" column="userId"
+                     select="getUser"/>
+    </resultMap>
+    <select id="selectInfoByProductId" resultType="com.hongcheng.fruitmall.willsale.pojo.vo.WillSaleInfo">
+        select * from will_sale where `productId`=#{productId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getFruit" resultType="com.hongcheng.fruitmall.fruit.pojo.vo.SimpleFruitInfo" parameterType="INTEGER">
+        select * from product where `productId`=#{productId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getUser" resultType="com.hongcheng.fruitmall.common.pojo.SimpleUserInfo" parameterType="INTEGER">
+        select * from user where `userId`=#{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getWillList" resultType="com.hongcheng.fruitmall.willsale.pojo.vo.WillSaleVO">
+        select will_sale.productId,`productTitle`,`introduce`,`startTime`,COUNT(will_sale.productId) numOfPeople
+        from will_sale left join product on product.productId=will_sale.productId group by will_sale.productId
+        <where>
+            <if test="qo.productId != null">
+                AND will_sale.productId=#{qo.productId,jdbcType=INTEGER}
+            </if>
+        </where>
+        <choose>
+            <when test="qo.orderBy != null">
+                ORDER BY
+                <foreach collection="qo.orderBy" item="item" separator=",">
+                    ${item.field} ${item.dir}
+                </foreach>
+            </when>
+            <otherwise>
+                ORDER BY  id desc
+            </otherwise>
+        </choose>
+        <if test="qo.size != 0">
+            LIMIT #{qo.from,jdbcType=INTEGER},#{qo.size,jdbcType=INTEGER}
+        </if>
+    </select>
+    <delete id="deleteByProductId">
+        delete from will_sale where `productId`=#{productId,jdbcType=INTEGER}
+    </delete>
+    <select id="getWillListCount" resultType="java.lang.Integer">
+        select COUNT(will_sale.productId)
+        from  will_sale left join product on product.productId=will_sale.productId group by will_sale.productId
+        <where>
+            <if test="qo.productId != null">
+                AND will_sale.productId=#{qo.productId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

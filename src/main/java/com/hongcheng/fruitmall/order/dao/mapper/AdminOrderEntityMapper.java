@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hongcheng.fruitmall.order.pojo.entity.OrderEntity;
 import com.hongcheng.fruitmall.order.pojo.qo.AdminOrderQO;
+import com.hongcheng.fruitmall.order.pojo.vo.OrderVO;
 
 /**
  * @author wanghongcheng 2018/04/18
@@ -13,7 +14,7 @@ import com.hongcheng.fruitmall.order.pojo.qo.AdminOrderQO;
  */
 public interface AdminOrderEntityMapper {
 
-    List<OrderEntity> getListByQuery(@Param("qo")AdminOrderQO qo);
+    List<OrderVO> getListByQuery(@Param("qo")AdminOrderQO qo);
 
     Integer getCountByQuery(@Param("qo") AdminOrderQO qo);
 

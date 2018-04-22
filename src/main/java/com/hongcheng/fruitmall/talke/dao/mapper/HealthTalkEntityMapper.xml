@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hongcheng.fruitmall.talke.dao.mapper.HealthTalkEntityMapper">
+
+    <sql id="Base_Column_List">
+        id,nutrition,talk,imgUrl,title
+    </sql>
+    <insert id="insert">
+        INSERT INTO health_talk
+        (nutrition,talk,imgUrl,`title`)
+        VALUES
+        (#{entity.nutrition},#{entity.talk},#{entity.imgUrl},#{entity.title})
+    </insert>
+
+    <delete id="delete">
+        delete from health_talk
+        where `id`=#{id}
+    </delete>
+    <select id="listAll" resultType="com.hongcheng.fruitmall.talke.pojo.entity.HealthTalkEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from health_talk
+        <choose>
+            <when test="qo.orderBy != null">
+                ORDER BY
+                <foreach collection="qo.orderBy" item="item" separator=",">
+                    ${item.field} ${item.dir}
+                </foreach>
+            </when>
+            <otherwise>
+                ORDER BY  `id` DESC
+            </otherwise>
+        </choose>
+        <if test="qo.size != 0">
+            limit #{qo.from,jdbcType=INTEGER},#{qo.size,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="getTotal" resultType="java.lang.Integer">
+        select COUNT(`id`)
+        from health_talk
+    </select>
+
+
+</mapper>

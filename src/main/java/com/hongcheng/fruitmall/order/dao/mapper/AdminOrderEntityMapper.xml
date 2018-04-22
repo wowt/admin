@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hongcheng.fruitmall.order.dao.mapper.AdminOrderEntityMapper">
+    <resultMap id="BaseResultMap" type="com.hongcheng.fruitmall.order.pojo.entity.OrderEntity"/>
+
+    <resultMap id="InfoResultMap" type="com.hongcheng.fruitmall.order.pojo.vo.OrderVO" extends="BaseResultMap">
+        <association property="userInfo" javaType="com.hongcheng.fruitmall.common.pojo.SimpleUserInfo" column="userId"
+                     select="getUserInfo"/>
+        <collection property="getFruitsInfo" ofType="com.hongcheng.fruitmall.fruit.pojo.vo.SimpleFruitInfo" column="orderId"
+                    select="getSimpleFruits"/>
+    </resultMap>
 
     <sql id="Base_Column_List">
         orderId, productId, price, productQuantity, payMoney, createTime,
@@ -20,9 +28,22 @@
         <if test="qo.orderId != null">
             AND `orderId` LIKE CONCAT('%',#{qo.orderId,jdbcType=INTEGER},'%')
         </if>
+        <if test="qo.state != null">
+            AND `state`=#{qo.state,jdbcType=VARCHAR}
+        </if>
     </sql>
 
-    <select id="getListByQuery" resultType="com.hongcheng.fruitmall.order.pojo.entity.OrderEntity">
+    <select id="getUserInfo" resultType="com.hongcheng.fruitmall.common.pojo.SimpleUserInfo" parameterType="INTEGER">
+        select * from user
+        where `userId`=#{userId}
+    </select>
+
+    <select id="getFruitsInfo" resultType="com.hongcheng.fruitmall.fruit.pojo.vo.SimpleFruitInfo" parameterType="INTEGER">
+        select * from product
+        where `orderId`=#{orderId}
+    </select>
+
+    <select id="getListByQuery" resultMap="InfoResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM `order`

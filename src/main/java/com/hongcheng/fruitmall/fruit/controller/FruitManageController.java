@@ -18,7 +18,7 @@ public class FruitManageController {
     FruitService service;
 
     @GetMapping("/fruits")
-    public RestResponse<List<FruitEntity>> getFruitList(@RequestBody FruitListQueryRequest request) {
+    public RestResponse<List<FruitEntity>> getFruitList(FruitListQueryRequest request) {
         return RestResponse.success(service.getFruitList(request));
     }
 
@@ -50,6 +50,11 @@ public class FruitManageController {
     @PatchMapping("/fruit/{id}/toPush")
     public RestResponse<Integer> updateToPush(@PathVariable Integer id) {
         return RestResponse.success(service.addPush(id));
+    }
+
+    @PatchMapping("/fruit/{id}/toWill")
+    public RestResponse<Integer> updateToWill(@PathVariable Integer id) {
+        return RestResponse.success(service.addWillSale(id));
     }
 
     @PatchMapping("/fruit/{id}/removePush")
