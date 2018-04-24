@@ -23,5 +23,7 @@ public interface FruitEntityMapper {
 
     List<FruitEntity> getListByQO(@Param("qo") FruitQuery qo);
 
+    int getTotalByQO(@Param("qo") FruitQuery qo);
+
     Integer updateState(@Param("id") Integer id, @Param("state") String state);
 }

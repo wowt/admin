@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.hongcheng.fruitmall.common.constants.RestResponse;
+import com.hongcheng.fruitmall.common.pojo.PageList;
 import com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity;
 import com.hongcheng.fruitmall.fruit.requst.FruitListQueryRequest;
 import com.hongcheng.fruitmall.fruit.service.FruitService;
@@ -18,7 +19,7 @@ public class FruitManageController {
     FruitService service;
 
     @GetMapping("/fruits")
-    public RestResponse<List<FruitEntity>> getFruitList(FruitListQueryRequest request) {
+    public RestResponse<PageList<FruitEntity>> getFruitList(FruitListQueryRequest request) {
         return RestResponse.success(service.getFruitList(request));
     }
 

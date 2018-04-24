@@ -2,6 +2,7 @@ package com.hongcheng.fruitmall.fruit.service;
 
 import java.util.List;
 
+import com.hongcheng.fruitmall.common.pojo.PageList;
 import com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity;
 import com.hongcheng.fruitmall.fruit.requst.FruitListQueryRequest;
 
@@ -16,7 +17,7 @@ public interface FruitService {
      * @param request
      * @return
      */
-    List<FruitEntity> getFruitList(FruitListQueryRequest request);
+    PageList<FruitEntity> getFruitList(FruitListQueryRequest request);
 
 
     /**

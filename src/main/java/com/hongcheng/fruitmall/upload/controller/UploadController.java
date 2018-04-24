@@ -19,17 +19,18 @@ public class UploadController {
     @Value("${location}")
     private String basePath;
 
-    private static String RESPONSEURL="http://60.205.218.101/static/img/";
+    @Value("${responseUrl}")
+    private String responseUrl;
 
     @PostMapping("/product")
     public RestResponse<String> uploadProductImg(@RequestParam MultipartFile file,HttpServletRequest request) throws Exception {
         String name = FileUtil.uploadFile(file, basePath + "products/");
-        return RestResponse.success(RESPONSEURL+"products/"+name);
+        return RestResponse.success(responseUrl +"products/"+name);
     }
 
     @PostMapping("/health")
     public RestResponse<String> uploadHealthImg(@RequestParam MultipartFile file) throws Exception {
         String name = FileUtil.uploadFile(file, basePath + "health/");
-        return RestResponse.success(RESPONSEURL+"health/"+name);
+        return RestResponse.success(responseUrl +"health/"+name);
     }
 }

@@ -3,18 +3,18 @@
 <mapper namespace="com.hongcheng.fruitmall.fruit.dao.mapper.FruitEntityMapper">
     <sql id="Base_column_List">
         productId,productName,productPlace,productState,productType,
-        productImg,tips,price,dealPrice,score,startTime,endTime,introduce,keyWord
+        productImg,tips,price,dealPrice,score,startTime,endTime,introduce,title
     </sql>
 
     <sql id="filter">
         <if test="qo.keyWord != null">
-            AND keyWord LIKE CONCAT('%',#{qo.keyWord,jdbcType=VARCHAR},'%')
+            AND productName LIKE CONCAT('%',#{qo.keyWord,jdbcType=VARCHAR},'%')
         </if>
         <if test="qo.productType != null">
             AND productType=#{qo.productType,jdbcType=INTEGER}
         </if>
         <if test="qo.state != null">
-            find_in_set(#{qo.state,jdbcType=VARCHAR},productState)
+            AND find_in_set(#{qo.state,jdbcType=VARCHAR},productState)
         </if>
     </sql>
 
@@ -29,10 +29,10 @@
     <insert id="insert" useGeneratedKeys="true" keyProperty="productId">
         INSERT INTO product
         (productName,productPlace,productState,productType,
-        productImg,tips,price,dealPrice,score,startTime,endTime,introduce,keyWord)
+        productImg,tips,price,dealPrice,score,startTime,endTime,introduce)
         VALUES
         (#{productName},#{productPlace},#{productState},#{productType},
-        #{productImg},#{tips},#{price},#{dealPrice},#{score},#{startTime},#{endTime},#{introduce},#{keyWord})
+        #{productImg},#{tips},#{price},#{dealPrice},#{score},#{startTime},#{endTime},#{introduce},title)
     </insert>
     <update id="update">
         update product
@@ -73,8 +73,8 @@
             <if test="introduce != null">
                 introduce=#{introduce},
             </if>
-            <if test="keyWord != null">
-                keyWord=#{keyWord},
+            <if test="title != null">
+                `title`=#{title},
             </if>
         </set>
         where productId=#{productId}
@@ -112,7 +112,7 @@
                 </foreach>
             </when>
             <otherwise>
-                ORDER BY  id desc
+                ORDER BY  productId desc
             </otherwise>
         </choose>
         <if test="qo.size != 0">
@@ -125,4 +125,11 @@
         set productState=#{state,jdbcType=VARCHAR}
         where productId=#{id,jdbcType=INTEGER}
     </update>
+    <select id="getTotalByQO" resultType="int">
+        SELECT COUNT(productId)
+        FROM product
+        <where>
+            <include refid="filter"/>
+        </where>
+    </select>
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.hongcheng.fruitmall.common.constants.FruitState;
 import com.hongcheng.fruitmall.common.beanMapper.BeanMapperFactory;
 import com.hongcheng.fruitmall.common.mail.MailSendCache;
+import com.hongcheng.fruitmall.common.pojo.PageList;
 import com.hongcheng.fruitmall.fruit.dao.cache.FruitCache;
 import com.hongcheng.fruitmall.fruit.dao.mapper.FruitEntityMapper;
 import com.hongcheng.fruitmall.fruit.pojo.entity.FruitEntity;
@@ -38,8 +39,9 @@ public class FruitServiceImpl implements FruitService {
     private WillSaleService willSaleService;
 
     @Override
-    public List<FruitEntity> getFruitList(FruitListQueryRequest request) {
-        return mapper.getListByQO(createQO(request));
+    public PageList<FruitEntity> getFruitList(FruitListQueryRequest request) {
+        FruitQuery qo = createQO(request);
+        return new PageList<>(mapper.getTotalByQO(qo), mapper.getListByQO(qo));
     }
 
     @Override

@@ -1,6 +1,10 @@
 package com.hongcheng.fruitmall.fruit.pojo.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -45,35 +49,35 @@ public class FruitEntity {
     /**
      * 单价 /kg
      */
-    private float price;
+    private BigDecimal price;
 
     /**
      * 折扣价
      */
-    private float dealPrice;
+    private BigDecimal dealPrice;
 
     /**
      * 购买1kg可以获得多少积分
      */
-    private float score;
+    private BigDecimal score;
 
     /**
      * 开始销售时间
      */
-    private LocalDateTime startTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate startTime;
 
     /**
      * 止时间
      */
-    private LocalDateTime endTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate endTime;
 
     /**
      * 介绍
      */
     private String introduce;
 
-    /**
-     * 关键字查询
-     */
-    private String keyWord;
+    private String title;
+
 }
