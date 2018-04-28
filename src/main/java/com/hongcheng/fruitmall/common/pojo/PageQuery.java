@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class PageQuery {
     private Integer from;//查询起始行
-    private Integer size; //查询行数
+    private Integer size=0; //查询行数
     private List<OrderBy> orderBy; //排序
 
     /**

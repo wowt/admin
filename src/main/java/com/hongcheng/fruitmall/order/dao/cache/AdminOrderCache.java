@@ -30,4 +30,8 @@ public class AdminOrderCache extends AbstractCache {
 
         return orderVOS;
     }
+
+    public void cleanOrderQueue() {
+        delete(orderQueueKey);
+    }
 }

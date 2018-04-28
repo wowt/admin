@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hongcheng.fruitmall.order.dao.mapper.AdminOrderEntityMapper">
-    <resultMap id="BaseResultMap" type="com.hongcheng.fruitmall.order.pojo.entity.OrderEntity"/>
+    <resultMap id="BaseResultMap" type="com.hongcheng.fruitmall.order.pojo.entity.OrderEntity">
+        <id column="orderId" property="orderId"/>
+        <result column="userId" property="userId"/>
+    </resultMap>
 
     <resultMap id="InfoResultMap" type="com.hongcheng.fruitmall.order.pojo.vo.OrderVO" extends="BaseResultMap">
-        <association property="userInfo" javaType="com.hongcheng.fruitmall.common.pojo.SimpleUserInfo" column="userId"
-                     select="getUserInfo"/>
-        <collection property="getFruitsInfo" ofType="com.hongcheng.fruitmall.fruit.pojo.vo.SimpleFruitInfo" column="orderId"
-                    select="getSimpleFruits"/>
+        <association property="userInfo"  column="userId" select="getUserInfo"/>
+        <collection property="fruitsInfo" column="orderId" select="getSimpleFruits"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        orderId, productId, price, productQuantity, payMoney, createTime,
-        state, scoreOne, scoreAll, remarks, userId, userAddress
+        orderId, payMoney, createTime,
+        state, scoreOne, scoreAll, remarks, `order`.userId, userAddress,signTime
     </sql>
 
     <sql id="filter">
@@ -34,19 +35,23 @@
     </sql>
 
     <select id="getUserInfo" resultType="com.hongcheng.fruitmall.common.pojo.SimpleUserInfo" parameterType="INTEGER">
-        select * from user
-        where `userId`=#{userId}
+        select realname as name,userTelPhone
+        from user left join user_address on user.userId=user_address.userId
+        where user.userId=#{userId}
     </select>
 
-    <select id="getFruitsInfo" resultType="com.hongcheng.fruitmall.fruit.pojo.vo.SimpleFruitInfo" parameterType="INTEGER">
-        select * from product
+    <select id="getSimpleFruits" resultType="com.hongcheng.fruitmall.fruit.pojo.vo.SimpleFruitInfo" parameterType="INTEGER">
+        select `order_product_relation`.productId,`order_product_relation`.imgUrl as productImg,title,
+        `order_product_relation`.price as dealPrice,quantity
+        from `order_product_relation`
+        left join `product` on `order_product_relation`.productId=`product`.productId
         where `orderId`=#{orderId}
     </select>
 
     <select id="getListByQuery" resultMap="InfoResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM `order`
+        FROM `order` left join user on `order`.userId=user.userId
         <where>
             <include refid="filter"/>
         </where>
@@ -67,14 +72,14 @@
     </select>
     <select id="getCountByQuery" resultType="java.lang.Integer">
         SELECT COUNT(`orderId`)
-        FROM `order`
+        FROM `order` left join user on `order`.userId=user.userId
         <where>
             <include refid="filter"/>
         </where>
     </select>
     <update id="updateStateById">
         UPDATE `order`
-        SET `state`=#{state,jdbcType=VARCHAR}
+        SET `state`=#{state,jdbcType=VARCHAR},`signTime`=#{time,jdbcType=TIMESTAMP}
         WHERE `orderId`=#{id,jdbcType=INTEGER}
     </update>
 

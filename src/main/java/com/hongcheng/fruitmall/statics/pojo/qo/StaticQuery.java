@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 public class StaticQuery extends PageQuery {
 
-    private String name;
+    private String keyWord;
 
-    private Integer type;
+    private Integer productType;
 
     private LocalDateTime startTime;
 

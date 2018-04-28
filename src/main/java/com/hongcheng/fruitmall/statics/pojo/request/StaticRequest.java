@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class StaticRequest extends PageForm {
 
-    private String name;
+    private String keyWord;
 
-    private Integer type;
+    private Integer productType;
 
     private String timeType;
 }

@@ -1,6 +1,9 @@
 package com.hongcheng.fruitmall.talke.pojo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class HealthTalkEntity {
@@ -14,4 +17,7 @@ public class HealthTalkEntity {
     private String imgUrl;
 
     private String title;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
 }

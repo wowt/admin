@@ -1,5 +1,6 @@
 package com.hongcheng.fruitmall.order.requst;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,11 +14,11 @@ public class AdminOrderRequest extends PageForm {
 
     private String email;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startTime;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime endTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endTime;
 
     private Integer orderId;
 

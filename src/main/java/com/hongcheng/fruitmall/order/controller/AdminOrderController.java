@@ -18,21 +18,19 @@ public class AdminOrderController {
     private AdminOrderService service;
 
     @GetMapping("/orders/submitted")
-    public RestResponse<PageList<OrderVO>> getSubmittedOrders(AdminOrderRequest request) {
-        return RestResponse.success(service.getSubmitOrders());
-    }
-
-    @GetMapping("/orders/dispatching")
-    public RestResponse<PageList<OrderVO>> getDispatchingOrders() {
-        AdminOrderRequest request = new AdminOrderRequest();
-        request.setState(OrderState.ACCEPTED.getValue());
-        return RestResponse.success(service.orderList(request));
+    public RestResponse<PageList<OrderVO>> getSubmittedOrders(Boolean isFresh) {
+        return RestResponse.success(service.getSubmitOrders(isFresh));
     }
 
     @GetMapping("/orders/WaitingSign")
     public RestResponse<PageList<OrderVO>> getWaitingSignOrders() {
         AdminOrderRequest request = new AdminOrderRequest();
-        request.setState(OrderState.DISPATCHING.getValue());
+        request.setState(OrderState.ACCEPTED.getValue());
+        return RestResponse.success(service.orderList(request));
+    }
+
+    @GetMapping("/orders")
+    public RestResponse<PageList<OrderVO>> getList(AdminOrderRequest request) {
         return RestResponse.success(service.orderList(request));
     }
 
@@ -46,15 +44,9 @@ public class AdminOrderController {
         return RestResponse.success(service.refuse(id));
     }
 
-    @PatchMapping("/order/{id}/dispatching")
-    public RestResponse<Integer> dispatchOrder(@PathVariable Integer id) {
-        return RestResponse.success(service.dispatch(id));
-    }
-
     @PatchMapping("/order/{id}/sign")
     public RestResponse<Integer> signOrder(@PathVariable Integer id) {
         return RestResponse.success(service.sign(id));
     }
-
 
 }

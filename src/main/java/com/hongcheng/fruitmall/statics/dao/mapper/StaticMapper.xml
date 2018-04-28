@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hongcheng.fruitmall.statics.dao.mapper.StaticMapper">
-    <sql id="filter">
-        <if test="qo.name != null">
-            AND `productName` like CONCAT('%',#{qo.name,jdbcType=VARCHAR},'%')
+    <sql id="typeFilter">
+        <if test="qo.keyWord != null">
+            AND `productName` like CONCAT('%',#{qo.keyWord,jdbcType=VARCHAR},'%')
         </if>
-        <if test="qo.type != null">
-            AND `productType`=#{qo.type,jdbcType=INTEGER}
+        <if test="qo.productType != null">
+            AND `productType`=#{qo.productType,jdbcType=INTEGER}
         </if>
+    </sql>
+
+    <sql id="timeFilter">
         <if test="qo.startTime != null">
-            AND `createTime`&gt;=#{qo.startTime,jdbcType=TIMESTAMP}
+            AND `order`.`createTime`&gt;=#{qo.startTime,jdbcType=TIMESTAMP}
         </if>
         <if test="qo.endTime != null">
-            AND `createTime&lt;=#{qo.endTime,jdbcType=TIMESTAMP}
+            AND `order`.`createTime`&lt;=#{qo.endTime,jdbcType=TIMESTAMP}
         </if>
     </sql>
 
     <select id="getStaticByQuery" resultType="com.hongcheng.fruitmall.statics.pojo.vo.StaticVO">
-        select productId,productTitle,SUM(`quantity`) as totalCapacity,SUM(`order_product_relation.price`) as totalMoney
-        from `order` inner join `order_product_relation` on `order`.`orderId`=`order_product_relation`.`orderId`
-        inner join `product` on `order_product_relation`.productId=`product`.productId
-        <where>
-            <include refid="filter"/>
-        </where>
+        select productState,p.productId,title,SUM(`quantity`) as totalCapacity,SUM(`order_product_relation`.price) as totalMoney,
+        COUNT(t.orderId) as orderNum
+        from (select productState,product.productId,title from `product` <where><include refid="typeFilter"/></where>) p
+        left join `order_product_relation` on p.productId=order_product_relation.productId
+        left join (select `order`.orderId from `order` <where><include refid="timeFilter"/></where>) t
+        on `order_product_relation`.orderId = t.orderId
         group by productId
         <choose>
             <when test="qo.orderBy != null">
@@ -41,11 +44,9 @@
     </select>
     <select id="countStatic" resultType="java.lang.Integer">
         select COUNT(`productId`)
-        from `order` inner join `order_product_relation` on `order`.`orderId`=`order_product_relation`.`orderId`
-        inner join `product` on `order_product_relation`.productId=`product`.productId
+        from product
         <where>
-            <include refid="filter"/>
+            <include refid="typeFilter"/>
         </where>
-        group by productId
     </select>
 </mapper>

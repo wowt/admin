@@ -1,5 +1,7 @@
 package com.hongcheng.fruitmall.order.service.Impl;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,30 +37,43 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     }
 
     @Override
-    public PageList<OrderVO> getSubmitOrders() {
-        //从缓存队列中取出所有数据
-        List<OrderVO> vos = orderCache.getOrderListFromQueue();
-        return new PageList<>(vos.size(),vos);
+    public PageList<OrderVO> getSubmitOrders(Boolean isFresh) {
+        PageList<OrderVO> result = new PageList<>();
+        //刷新缓存从数据库中取数据
+        if(isFresh) {
+            AdminOrderQO qo = new AdminOrderQO();
+            qo.setState(OrderState.SUBMITTED.getValue());
+            List<OrderVO> list = mapper.getListByQuery(qo);
+            result.setTotal(list.size());
+            result.setData(list);
+            orderCache.cleanOrderQueue();
+        } else {
+            //从缓存队列中取出所有数据
+            List<OrderVO> vos = orderCache.getOrderListFromQueue();
+            result.setTotal(vos.size());
+            result.setData(vos);
+        }
+        return result;
     }
 
     @Override
     public Integer acceptOrder(Integer orderId) {
-        return mapper.updateStateById(orderId, OrderState.ACCEPTED.getValue());
+        return mapper.updateStateById(orderId, OrderState.ACCEPTED.getValue(),null);
     }
 
     @Override
     public Integer refuse(Integer orderId) {
-        return mapper.updateStateById(orderId, OrderState.REFUSED.getValue());
+        return mapper.updateStateById(orderId, OrderState.REFUSED.getValue(),null);
     }
 
     @Override
     public Integer dispatch(Integer orderId) {
-        return mapper.updateStateById(orderId, OrderState.DISPATCHING.getValue());
+        return mapper.updateStateById(orderId, OrderState.DISPATCHING.getValue(),null);
     }
 
     @Override
     public Integer sign(Integer orderId) {
-        return mapper.updateStateById(orderId, OrderState.SIGNED.getValue());
+        return mapper.updateStateById(orderId, OrderState.SIGNED.getValue(), LocalDateTime.now());
     }
 
     /**
@@ -68,6 +83,9 @@ public class AdminOrderServiceImpl implements AdminOrderService {
      */
     private AdminOrderQO createQO(AdminOrderRequest request) {
         AdminOrderQO qo = BeanMapperFactory.getMapperFacade().map(request, AdminOrderQO.class);
+        if(qo.getEndTime() != null) {
+            qo.setEndTime(qo.getEndTime().with(LocalTime.MAX));
+        }
         qo.paging(request);
         return qo;
     }

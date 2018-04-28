@@ -14,17 +14,17 @@ import com.hongcheng.fruitmall.order.requst.AdminOrderRequest;
 public interface AdminOrderService {
 
     /**
-     * 获取order列表，不分页
+     * 获取order列表
      * @param request
      * @return
      */
     PageList<OrderVO> orderList(AdminOrderRequest request);
 
     /**
-     * 获取刚提交的订单列
+     * 获取刚提交的订单列,不分页
      * @return
      */
-    PageList<OrderVO> getSubmitOrders();
+    PageList<OrderVO> getSubmitOrders(Boolean isFresh);
 
     /**
      * 接受订单

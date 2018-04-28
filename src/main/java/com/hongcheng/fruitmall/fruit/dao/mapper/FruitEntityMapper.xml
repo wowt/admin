@@ -29,10 +29,10 @@
     <insert id="insert" useGeneratedKeys="true" keyProperty="productId">
         INSERT INTO product
         (productName,productPlace,productState,productType,
-        productImg,tips,price,dealPrice,score,startTime,endTime,introduce)
+        productImg,tips,price,dealPrice,score,startTime,endTime,introduce,title)
         VALUES
         (#{productName},#{productPlace},#{productState},#{productType},
-        #{productImg},#{tips},#{price},#{dealPrice},#{score},#{startTime},#{endTime},#{introduce},title)
+        #{productImg},#{tips},#{price},#{dealPrice},#{score},#{startTime},#{endTime},#{introduce},#{title})
     </insert>
     <update id="update">
         update product

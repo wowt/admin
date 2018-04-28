@@ -11,6 +11,8 @@ import com.hongcheng.fruitmall.talke.dao.mapper.HealthTalkEntityMapper;
 import com.hongcheng.fruitmall.talke.pojo.entity.HealthTalkEntity;
 import com.hongcheng.fruitmall.talke.service.HealthTalkService;
 
+import java.time.LocalDateTime;
+
 @Service
 public class HealthTalkServiceImpl implements HealthTalkService {
 
@@ -32,5 +34,11 @@ public class HealthTalkServiceImpl implements HealthTalkService {
         PageQuery qo = BeanMapperFactory.getMapperFacade().map(form, PageQuery.class);
         qo.paging(form);
         return qo;
+    }
+
+    @Override
+    public Integer createTalk(HealthTalkEntity entity) {
+        entity.setCreateTime(LocalDateTime.now());
+        return mapper.insert(entity);
     }
 }

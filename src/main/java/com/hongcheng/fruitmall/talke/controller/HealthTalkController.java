@@ -9,6 +9,10 @@ import com.hongcheng.fruitmall.common.pojo.PageList;
 import com.hongcheng.fruitmall.talke.pojo.entity.HealthTalkEntity;
 import com.hongcheng.fruitmall.talke.service.HealthTalkService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.TimeZone;
+
 @RestController
 @RequestMapping("/admin/health-talk/v1")
 public class HealthTalkController {
@@ -21,8 +25,13 @@ public class HealthTalkController {
         return RestResponse.success(service.getList(form));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/talk/{id}")
     public RestResponse<Integer> delete(@PathVariable Integer id) {
         return RestResponse.success(service.deleteById(id));
+    }
+
+    @PostMapping("/talk")
+    public RestResponse<Integer> create(@RequestBody HealthTalkEntity entity) {
+        return RestResponse.success(service.createTalk(entity));
     }
 }

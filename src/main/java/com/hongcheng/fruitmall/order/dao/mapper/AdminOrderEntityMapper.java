@@ -1,5 +1,6 @@
 package com.hongcheng.fruitmall.order.dao.mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -18,5 +19,6 @@ public interface AdminOrderEntityMapper {
 
     Integer getCountByQuery(@Param("qo") AdminOrderQO qo);
 
-    Integer updateStateById(@Param("id") Integer id,@Param("state") String state);
+    Integer updateStateById(@Param("id") Integer id, @Param("state") String state,
+                            @Param("time")LocalDateTime time);
 }

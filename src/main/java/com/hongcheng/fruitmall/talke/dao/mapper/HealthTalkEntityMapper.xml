@@ -3,13 +3,13 @@
 <mapper namespace="com.hongcheng.fruitmall.talke.dao.mapper.HealthTalkEntityMapper">
 
     <sql id="Base_Column_List">
-        id,nutrition,talk,imgUrl,title
+        id,nutrition,talk,imgUrl,title,createTime
     </sql>
     <insert id="insert">
         INSERT INTO health_talk
-        (nutrition,talk,imgUrl,`title`)
+        (nutrition,talk,imgUrl,`title`,createTime)
         VALUES
-        (#{entity.nutrition},#{entity.talk},#{entity.imgUrl},#{entity.title})
+        (#{entity.nutrition},#{entity.talk},#{entity.imgUrl},#{entity.title},#{entity.createTime})
     </insert>
 
     <delete id="delete">

@@ -13,7 +13,7 @@ public class SimpleFruitInfo {
 
     private String title;
 
-    private BigDecimal price;
+    private BigDecimal dealPrice;
 
-    private Integer quality;
+    private Integer quantity;
 }

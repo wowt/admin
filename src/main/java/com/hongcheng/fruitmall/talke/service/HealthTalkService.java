@@ -21,4 +21,11 @@ public interface HealthTalkService {
      * @return
      */
     Integer deleteById(Integer id);
+
+    /**
+     * 创建
+     * @param entity
+     * @return
+     */
+    Integer createTalk(HealthTalkEntity entity);
 }

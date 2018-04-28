@@ -2,6 +2,7 @@ package com.hongcheng.fruitmall.statics.service.impl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
@@ -26,7 +27,9 @@ public class StaticServiceImpl implements StaticService {
     @Override
     public PageList<StaticVO> getStaticByQuery(StaticRequest request) {
         StaticQuery query = createQuery(request);
-        return new PageList<>(mapper.countStatic(query), mapper.getStaticByQuery(query));
+        Integer total = mapper.countStatic(query);
+        List<StaticVO> list = mapper.getStaticByQuery(query);
+        return new PageList<>(total,list);
     }
 
     private StaticQuery createQuery(StaticRequest request) {
@@ -35,11 +38,13 @@ public class StaticServiceImpl implements StaticService {
         StaticTimeType timeType = StaticTimeType.valueOf(request.getTimeType());
         switch (timeType) {
             case WEEK:
-                qo.setStartTime(LocalDateTime.now().with(DayOfWeek.MONDAY));
+                qo.setStartTime(LocalDateTime.now().with(DayOfWeek.MONDAY)
+                        .with(LocalTime.MIN));
                 qo.setEndTime(LocalDateTime.now());
                 break;
             case MONTH:
-                qo.setStartTime(LocalDateTime.now().with(TemporalAdjusters.firstDayOfMonth()).with(LocalDateTime.MIN));
+                qo.setStartTime(LocalDateTime.now().with(TemporalAdjusters.firstDayOfMonth())
+                        .with(LocalTime.MIN));
                 qo.setEndTime(LocalDateTime.now());
                 break;
             case ALL:

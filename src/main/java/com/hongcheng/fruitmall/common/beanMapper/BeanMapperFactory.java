@@ -15,7 +15,8 @@ public class BeanMapperFactory {
 			converterFactory.registerConverter(new LocalDateConverter());
 			converterFactory.registerConverter(new LocalTimeConverter());
 			converterFactory.registerConverter(new LocalDateTimeConverter());
-			converterFactory.registerConverter(new B2IConverter());
+//			converterFactory.registerConverter(new B2IConverter());
+			converterFactory.registerConverter(new DateAndDateTimeConvert());
 		}
 
 	}

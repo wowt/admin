@@ -22,13 +22,15 @@
     </select>
 
     <select id="getWillList" resultType="com.hongcheng.fruitmall.willsale.pojo.vo.WillSaleVO">
-        select will_sale.productId,`productTitle`,`introduce`,`startTime`,COUNT(will_sale.productId) numOfPeople
-        from will_sale left join product on product.productId=will_sale.productId group by will_sale.productId
+        select product.productId,`title`,`productImg`,dealPrice,productState,`startTime`,COUNT(will_sale.productId) numOfPeople
+        from  product left join will_sale on product.productId=will_sale.productId
         <where>
             <if test="qo.productId != null">
                 AND will_sale.productId=#{qo.productId,jdbcType=INTEGER}
             </if>
+            AND find_in_set('will',productState)
         </where>
+        group by will_sale.productId
         <choose>
             <when test="qo.orderBy != null">
                 ORDER BY
@@ -37,7 +39,7 @@
                 </foreach>
             </when>
             <otherwise>
-                ORDER BY  id desc
+                ORDER BY startTime asc
             </otherwise>
         </choose>
         <if test="qo.size != 0">

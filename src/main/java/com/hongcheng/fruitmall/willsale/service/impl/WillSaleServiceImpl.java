@@ -1,6 +1,7 @@
 package com.hongcheng.fruitmall.willsale.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,10 @@ public class WillSaleServiceImpl implements WillSaleService {
     @Override
     public PageList<WillSaleVO> getListByQuery(WillSaleRequest request) {
         WillSaleQO qo = createQO(request);
-        return new PageList<>(mapper.getWillListCount(qo),mapper.getWillList(qo));
+        PageList<WillSaleVO> list = new PageList<>();
+        list.setTotal(Optional.ofNullable(mapper.getWillListCount(qo)).orElse(0));
+        list.setData(mapper.getWillList(qo));
+        return list;
     }
 
     @Override

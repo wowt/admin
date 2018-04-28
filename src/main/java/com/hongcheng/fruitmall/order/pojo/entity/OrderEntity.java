@@ -22,6 +22,9 @@ public class OrderEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime signTime;
+
     private String state;
 
     private String remarks;
