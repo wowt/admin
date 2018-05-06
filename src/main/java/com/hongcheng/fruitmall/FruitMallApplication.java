@@ -6,12 +6,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.TimeZone;
 
 @ComponentScan("com.hongcheng.fruitmall")
 @ImportResource("classpath:applicationContext.xml")
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@EnableScheduling
 public class FruitMallApplication {
 
 	public static void main(String[] args) {

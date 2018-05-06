@@ -2,6 +2,8 @@ package com.hongcheng.fruitmall.common.mail;
 
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 @Service
 public class MailService {
+
+    Logger log = LoggerFactory.getLogger(MailService.class);
+
     @Value("${mailgun.apikey}")
     private String mailgun_apikey;
 
@@ -35,5 +40,6 @@ public class MailService {
         webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, formData);
 
         client.destroy();
+        log.info("send email to "+mail.getTo());
     }
 }

@@ -3,6 +3,8 @@ package com.hongcheng.fruitmall.common.job;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,8 @@ import com.hongcheng.fruitmall.willsale.pojo.vo.WillSaleInfo;
 
 @Component
 public class MailJob {
+
+    Logger log = LoggerFactory.getLogger(MailJob.class);
 
     @Autowired
     private MailSendCache cache;
@@ -24,7 +28,7 @@ public class MailJob {
     /**
      * 每隔1分钟读取邮件缓存队列
      */
-    @Scheduled(fixedDelay = 1*60*1000)
+    @Scheduled(fixedDelay = 1000)
     public void sendPublishMail() {
         List<WillSaleInfo> infos = cache.popPublishMailFromQueue(SIZE);
         if (CollectionUtils.isNotEmpty(infos)) {
@@ -45,6 +49,7 @@ public class MailJob {
         if(info != null) {
             MailRequest activeMail = MailBody.getActiveMail(info.getUserName(), info.getEmail(), info.getCode());
             mailService.sendMail(activeMail);
+            log.info("read email "+ info.getEmail());
         }
     }
 
