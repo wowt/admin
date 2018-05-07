@@ -16,15 +16,15 @@ public class FruitCache extends AbstractCache {
 
     private static final Integer TIMEOUT = 300;
 
-    private static String FRUIT_DAYDEAL_KEY = "fruit_dayDeal_key";
+    private static String FRUIT_DAYDEAL_KEY = "dayDeal_key";
 
-    private static String FRUIT_PUBLISH_KEY ="fruit_publish_key";
+    private static String FRUIT_PUBLISH_KEY ="publish_key";
 
-    private static String FRUIT_SHOPPER_PUSH_KEY = "fruit_shopper_push_key"; //店长推荐
+    private static String FRUIT_SHOPPER_PUSH_KEY = "shopper_push_key"; //店长推荐
 
-    private static String FRUIT_WEEK_HOT_KEY = "fruit_week_hot_key"; //本周热卖
+    private static String FRUIT_WEEK_HOT_KEY = "week_hot_key"; //本周热卖
 
-    private static String FRUIT_Will_ON_SALE_KEY = "fruit_will_on_sale_key"; //预售
+    private static String FRUIT_Will_ON_SALE_KEY = "will_on_sale_key"; //预售
 
     /**
      * 获取今日促销的水果
