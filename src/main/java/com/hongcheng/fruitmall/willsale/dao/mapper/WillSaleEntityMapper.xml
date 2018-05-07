@@ -9,7 +9,7 @@
         <association property="userInfo" javaType="com.hongcheng.fruitmall.common.pojo.SimpleUserInfo" column="userId"
                      select="getUser"/>
     </resultMap>
-    <select id="selectInfoByProductId" resultType="com.hongcheng.fruitmall.willsale.pojo.vo.WillSaleInfo">
+    <select id="selectInfoByProductId" resultMap="ResultInfoMap">
         select * from will_sale where `productId`=#{productId,jdbcType=INTEGER}
     </select>
 
@@ -50,12 +50,13 @@
         delete from will_sale where `productId`=#{productId,jdbcType=INTEGER}
     </delete>
     <select id="getWillListCount" resultType="java.lang.Integer">
-        select COUNT(will_sale.productId)
-        from  will_sale left join product on product.productId=will_sale.productId group by will_sale.productId
+        select COUNT(productId)
+        from product
         <where>
             <if test="qo.productId != null">
                 AND will_sale.productId=#{qo.productId,jdbcType=INTEGER}
             </if>
+            AND find_in_set('will',productState)
         </where>
     </select>
 
