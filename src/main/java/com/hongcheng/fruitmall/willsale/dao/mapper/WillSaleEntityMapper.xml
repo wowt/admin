@@ -30,7 +30,7 @@
             </if>
             AND find_in_set('will',productState)
         </where>
-        group by will_sale.productId
+        group by product.productId
         <choose>
             <when test="qo.orderBy != null">
                 ORDER BY
